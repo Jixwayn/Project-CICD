@@ -4,8 +4,8 @@ pipeline {
     environment {
         // กำหนดตัวแปรสำหรับใช้ใน pipeline
         NODE_ENV = 'production'
-        NETLIFY_SITE_ID = 'your-netlify-site-id'  // กรอก Site ID จาก Netlify
-        NETLIFY_AUTH_TOKEN = credentials('netlify-auth-token')  // Netlify Token ที่เก็บไว้ใน Jenkins Credentials
+        NETLIFY_SITE_ID = d4d67053-1817-4830-b805-029a778857b3 // กรอก Site ID จาก Netlify
+        NETLIFY_AUTH_TOKEN = credentials('nfp_oWagAZ8FQNh3PzbjfjKx5LmmRMRDcEnP5d90')  // Netlify Token ที่เก็บไว้ใน Jenkins Credentials
     }
 
     stages {
