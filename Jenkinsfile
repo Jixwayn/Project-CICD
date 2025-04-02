@@ -2,67 +2,74 @@ pipeline {
     agent any
 
     environment {
-        // กำหนดตัวแปรสำหรับใช้ใน pipeline
-        NODE_ENV = 'production'
-        NETLIFY_SITE_ID = d4d67053-1817-4830-b805-029a778857b3 // กรอก Site ID จาก Netlify
-        NETLIFY_AUTH_TOKEN = credentials('nfp_oWagAZ8FQNh3PzbjfjKx5LmmRMRDcEnP5d90')  // Netlify Token ที่เก็บไว้ใน Jenkins Credentials
+        NODEJS_VERSION = '18'  // ใช้ Node.js เวอร์ชัน 18
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // ดึงโค้ดจาก Git repository
-                git 'https://github.com/nattaponkum/learn-jenkins-app.git'
+                git 'https://github.com/Jixwayn/Project-CICD.git'
+            }
+        }
+
+        stage('Setup Node.js') {
+            steps {
+                script {
+                    def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
+                    env.PATH = "${nodejs}/bin:${env.PATH}"
+                }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // ติดตั้ง dependencies ด้วย npm
-                script {
-                    sh 'npm install'
-                }
+                sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // รันการทดสอบ (ถ้ามี)
-                script {
-                    sh 'npm test'
-                }
+                sh 'npm test'
             }
         }
 
-        stage('Build Project') {
+        stage('Build') {
             steps {
-                // สร้างโปรเจค (ถ้ามีการคอมไพล์หรือ build)
-                script {
-                    sh 'npm run build'
-                }
+                sh 'npm run build'
+            }
+        }
+
+        stage('Install Netlify CLI') {
+            steps {
+                sh 'npm install -g netlify-cli'
             }
         }
 
         stage('Deploy to Netlify') {
             steps {
-                script {
-                    // ใช้คำสั่ง Netlify CLI สำหรับการ deploy ขึ้น Netlify
-                    sh 'npm install -g netlify-cli'  // ติดตั้ง Netlify CLI
-                    sh 'netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN'  // Deploy ไปยัง Netlify
+                withCredentials([
+                    string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')
+                ]) {
+                    sh '''
+                    netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=ใส่_SITE_ID_ที่ได้จาก_Netlify
+                    '''
                 }
+            }
+        }
+
+        stage('Post Deploy Check') {
+            steps {
+                sh 'curl -I https://todolistspublic.netlify.app'
             }
         }
     }
 
     post {
         success {
-            // แจ้งเตือนเมื่อ deploy สำเร็จ
-            echo 'Deployment to Netlify completed successfully.'
+            echo '✅ Deployment Successful!'
         }
-
         failure {
-            // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
-            echo 'Deployment failed.'
+            echo '❌ Deployment Failed!'
         }
     }
 }
