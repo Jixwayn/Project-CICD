@@ -1,9 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        NODEJS_VERSION = '18'
-    }
+   
 
     stages {
         stage('Checkout Code') {
