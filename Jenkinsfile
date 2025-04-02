@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // ตรวจสอบการติดตั้ง NodeJS และตั้งค่า PATH
-                    def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
+                    def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                 }
             }
@@ -50,9 +50,7 @@ pipeline {
 
         stage('Deploy to Netlify') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')
-                ]) {
+                withCredentials([string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')]) {
                     sh '''
                     netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=ใส่_SITE_ID_ที่ได้จาก_Netlify
                     '''
