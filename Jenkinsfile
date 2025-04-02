@@ -4,17 +4,7 @@ pipeline {
     environment {
         NODEJS_VERSION = '18'  // ใช้ Node.js เวอร์ชัน 18
     }
-stages {
-    stage('Setup Node.js') {
-        steps {
-            script {
-                // ใช้เครื่องมือ Node.js ที่ตั้งไว้ใน Jenkins
-                def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
-                env.PATH = "${nodejs}/bin:${env.PATH}"
-            }
-        }
-    }
-}
+
     stages {
         stage('Checkout Code') {
             steps {
