@@ -15,15 +15,14 @@ pipeline {
         }
 
         stage('Setup Node.js') {
-    steps {
-        script {
-            def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
-            env.PATH = "${nodejs}/bin:${env.PATH}"
-            sh 'node -v'  // เช็คว่า NodeJS ทำงานได้จริง
+            steps {
+                script {
+                    def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
+                    env.PATH = "${nodejs}/bin:${env.PATH}"
+                    sh 'node -v'  // เช็คว่า NodeJS ทำงานได้จริง
+                }
+            }
         }
-    }
-}
-
 
         stage('Install Dependencies') {
             steps {
