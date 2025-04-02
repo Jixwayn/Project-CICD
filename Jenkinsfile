@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_VERSION = '18'  // ใช้ Node.js เวอร์ชัน 18
+        NODEJS_VERSION = '18'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                 git branch: 'main',
+                git branch: 'main',
                     credentialsId: 'github-token',
                     url: 'https://github.com/Jixwayn/Project-CICD.git'
             }
@@ -17,6 +17,7 @@ pipeline {
         stage('Setup Node.js') {
             steps {
                 script {
+                    // ตรวจสอบการติดตั้ง NodeJS และตั้งค่า PATH
                     def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                 }
