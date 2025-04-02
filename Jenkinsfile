@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // ตรวจสอบการติดตั้ง NodeJS และตั้งค่า PATH
-                    def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
+                    def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                 }
             }
