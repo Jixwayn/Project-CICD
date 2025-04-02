@@ -17,8 +17,8 @@ pipeline {
         stage('Setup Node.js') {
             steps {
                 script {
-                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
-                    def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
+                    // ใช้เครื่องมือ NodeJS ที่ตั้งไว้ใน Jenkins
+                    def nodejs = tool name: "NodeJS ${NODEJS_VERSION}", type: 'NodeJS installations'
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                     sh 'node -v'  // เช็คว่า NodeJS ทำงานได้จริง
                 }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')]) {
                     sh '''
-                    netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=ใส่_SITE_ID_ที่ได้จาก_Netlify
+                    netlify deploy --prod --auth=$NETLIFY_AUTH_TOKEN --site=<ใส่_SITE_ID_ที่ได้จาก_Netlify>
                     '''
                 }
             }
