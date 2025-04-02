@@ -17,6 +17,7 @@ pipeline {
         stage('Setup Node.js') {
             steps {
                 script {
+                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
                     def nodejs = tool name: 'NodeJS 18', type: 'NodeJS installations'
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                     sh 'node -v'  // เช็คว่า NodeJS ทำงานได้จริง
