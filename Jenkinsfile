@@ -4,7 +4,13 @@ pipeline {
     environment {
         NODEJS_VERSION = '22.14.0'
     }
-
+stages {
+        stage('Check Node.js Version') {
+            steps {
+                sh 'node -v'
+            }
+        }
+    }
     stages {
         stage('Checkout Code') {
             steps {
