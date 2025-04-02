@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/Jixwayn/Project-CICD.git'
+                 git branch: 'main',
+                    credentialsId: 'github-token',
+                    url: 'https://github.com/Jixwayn/Project-CICD.git'
             }
         }
 
