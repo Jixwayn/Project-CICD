@@ -2,15 +2,9 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_VERSION = '22.14.0'
+        NODEJS_VERSION = '18'
     }
-stages {
-        stage('Check Node.js Version') {
-            steps {
-                sh 'node -v'
-            }
-        }
-    }
+
     stages {
         stage('Checkout Code') {
             steps {
